@@ -1,0 +1,106 @@
+﻿@model BasicMvc.Model.CustomerOrderViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Customer Orders</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /*We cretae the Style for the order-table,order-table th,.order-table td  */
+     
+        .order-table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: gray;
+            color:azure
+        }
+
+            .order-table th, .order-table td, .mb-3 {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+                
+
+            }
+
+
+            .order-table th{
+                background-color: azure;
+                color:indigo
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">@*  We ccreated the the customer details  *@
+        <h1 class="mb-3" style="text-align:center">Customer Details</h1>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <p><strong>Id:</strong> @Model.Customer.Id</p>
+                <p><strong>First Name:</strong> @Model.Customer.FirstName</p>
+                <p><strong>Last Name:</strong> @Model.Customer.LastName</p>
+                <p><strong>Email:</strong> @Model.Customer.Email</p>
+            </div>
+        </div>
+
+        <h2 class="mb-4" style="text-align:center;padding:10px;border: 1px solid #ddd">Orders</h2> @*We created the Order Details Panel *@
+        <button id="toggleButton" class="btn btn-primary mb-4" type="button" data-toggle="collapse" data-target="#orderList" aria-expanded="false" aria-controls="orderList">@*We use the button for the cretae order list.*@
+            Orders Detail
+        </button>
+
+        <div id="orderList" class="collapse">
+            @if (Model.Orders.Any()) //@*İf Model.Orders have a item loop through and print the result.  *@
+            {
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Order Id</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr>
+                                <td>@order.Id</td>
+                                <td>@order.ProductName</td>
+                                <td>@order.Quantity</td>
+                                <td>@order.Price</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No orders available.</p> @*If Model has not any item  *@
+            }
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> @* added jquery librariy*@
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> @*added the boostrap lib *@
+
+    <script> 
+        $(document).ready(function () { //use js script for the ordere list button
+            $('#toggleButton').click(function () { 
+                
+                if ($('#orderList').hasClass('show')) // click the order  list method and the show contents
+                { 
+                    $(this).hide(); // when we click button in visible.
+                }
+            });
+
+            $('#orderList').on('hide.bs.collapse', function () {
+                $('#toggleButton').show();
+            });
+
+            $('#orderList').on('show.bs.collapse', function () {
+                $('#toggleButton').hide();
+            });
+        });
+    </script>
+</body>
+</html>
